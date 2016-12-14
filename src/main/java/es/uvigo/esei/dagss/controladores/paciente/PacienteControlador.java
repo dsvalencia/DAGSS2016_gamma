@@ -109,11 +109,11 @@ public class PacienteControlador implements Serializable {
     public String doLogin() {
         String destino = null;
         if (parametrosAccesoInvalidos()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No se ha indicado suficientes datos de autenticación", ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha indicado suficientes datos de autenticación", ""));
         } else {
             Paciente paciente = recuperarDatosPaciente();
             if (paciente == null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe ningún paciente con los datos indicados", ""));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No existe ningún paciente con los datos indicados", ""));
             } else {
                 if (autenticacionControlador.autenticarUsuario(
                         paciente.getId(),
