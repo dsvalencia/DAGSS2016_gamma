@@ -2,11 +2,15 @@
  Proyecto Java EE, DAGSS-2015
  */
 package es.uvigo.esei.dagss.controladores.autenticacion;
-
 import es.uvigo.esei.dagss.dominio.daos.UsuarioDAO;
+
+
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import es.uvigo.esei.dagss.dominio.entidades.Usuario;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -39,7 +43,14 @@ public class AutenticacionControlador implements Serializable {
         this.usuarioAutenticado = false;
         this.usuarioActual = null;
     }
-
+    
+    public String getFechaSistema(){
+     DateFormat dateFormat = new SimpleDateFormat("EEEE dd, MMMM yyyy");
+     Date date = new Date();
+     //System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43   
+     return dateFormat.format(date);
+    }
+    
     public boolean isUsuarioAutenticado() {
         return usuarioAutenticado;
     }
@@ -55,7 +66,7 @@ public class AutenticacionControlador implements Serializable {
     public void setUsuarioActual(Usuario usuarioActual) {
         this.usuarioActual = usuarioActual;
     }
-
+    
     public boolean autenticarUsuario(Long idUsuario, String passwordEnClaro, String tipo) {
         if (usuarioDAO.autenticarUsuario(idUsuario, passwordEnClaro, tipo)) {
             usuarioAutenticado = true;
