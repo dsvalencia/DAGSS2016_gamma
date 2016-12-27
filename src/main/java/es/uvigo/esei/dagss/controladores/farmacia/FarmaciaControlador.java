@@ -5,7 +5,12 @@ package es.uvigo.esei.dagss.controladores.farmacia;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.FarmaciaDAO;
+
+import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
+
+import es.uvigo.esei.dagss.dominio.entidades.EstadoReceta;
 import es.uvigo.esei.dagss.dominio.entidades.Farmacia;
+import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -24,14 +29,20 @@ import javax.inject.Inject;
 public class FarmaciaControlador implements Serializable {
 
     private Farmacia farmaciaActual;
+    private Receta recetaActual;
+    
     private String nif;
     private String password;
+    
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
 
     @EJB
     private FarmaciaDAO farmaciaDAO;
+    
+     @EJB
+    private RecetaDAO recetaDAO;
 
     /**
      * Creates a new instance of AdministradorControlador
@@ -39,10 +50,18 @@ public class FarmaciaControlador implements Serializable {
     public FarmaciaControlador() {
     }
 
+    
+    public Receta getRecetaActual(){
+    return this.recetaActual;
+    }
+    
     public String getNif() {
         return nif;
     }
 
+    public void setRecetaActual(Receta receta){
+        this.recetaActual=receta;
+    }
     public void setNif(String nif) {
         this.nif = nif;
     }
@@ -87,5 +106,18 @@ public class FarmaciaControlador implements Serializable {
             }
         }
         return destino;
+    }
+    
+    public void suministrarReceta(Receta receta){
+        if( System.currentTimeMillis() >= receta.getInicioValidez().getTime() && System.currentTimeMillis() < receta.getFinValidez().getTime()){
+            if(receta.getEstadoReceta().compareTo(EstadoReceta.GENERADA)==0){
+            receta.setEstadoReceta(EstadoReceta.SERVIDA);
+            receta.setFarmaciaDispensadora(farmaciaActual);
+            
+             recetaActual=recetaDAO.actualizar(recetaActual);
+          
+            }
+        }
+     
     }
 }
