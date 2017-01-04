@@ -10,11 +10,13 @@ import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
 
 import es.uvigo.esei.dagss.dominio.entidades.EstadoReceta;
 import es.uvigo.esei.dagss.dominio.entidades.Farmacia;
+
 import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -34,6 +36,9 @@ public class FarmaciaControlador implements Serializable {
     private String nif;
     private String password;
     
+    private String tarjetaUsuario;
+    
+    private List<Receta> listaRecetasUsuario;
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -50,6 +55,13 @@ public class FarmaciaControlador implements Serializable {
     public FarmaciaControlador() {
     }
 
+    public void setTarjetaUsuario(String tarjetaUsuario) {
+        this.tarjetaUsuario = tarjetaUsuario;
+    }
+
+    public String getTarjetaUsuario() {
+        return tarjetaUsuario;
+    }
     
     public Receta getRecetaActual(){
     return this.recetaActual;
@@ -113,11 +125,25 @@ public class FarmaciaControlador implements Serializable {
             if(receta.getEstadoReceta().compareTo(EstadoReceta.GENERADA)==0){
             receta.setEstadoReceta(EstadoReceta.SERVIDA);
             receta.setFarmaciaDispensadora(farmaciaActual);
-            
-             recetaActual=recetaDAO.actualizar(recetaActual);
-          
+            recetaActual=recetaDAO.actualizar(receta);
+            }else{
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al suministrar", ""));   
             }
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede suministrar fuera de la fecha", ""));
         }
      
+    }
+    
+    public void buscarPorTarjeta(){
+        if(this.tarjetaUsuario.equals("")){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "numero de tarjeta vacio", ""));
+        }else{
+            this.listaRecetasUsuario = this.recetaDAO.buscarPorTarjeta(this.tarjetaUsuario);
+        }
+    }
+
+    public List<Receta> getListaRecetasUsuario() {
+        return this.listaRecetasUsuario;
     }
 }

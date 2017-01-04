@@ -19,6 +19,7 @@
 /home/tatiux/Desktop/DAGSS/JEE/DAGSS2016_gamma/src/main/java/es/uvigo/esei/dagss/controladores/administrador/GestionMedicosControlador.java
 /home/tatiux/Desktop/DAGSS/JEE/DAGSS2016_gamma/src/main/java/es/uvigo/esei/dagss/dominio/entidades/EstadoReceta.java
 /home/tatiux/Desktop/DAGSS/JEE/DAGSS2016_gamma/src/main/java/es/uvigo/esei/dagss/dominio/daos/CentroSaludDAO.java
+/home/tatiux/Desktop/DAGSS/JEE/DAGSS2016_gamma/src/main/java/es/uvigo/esei/dagss/controladores/medico/PrescripcionControlador.java
 /home/tatiux/Desktop/DAGSS/JEE/DAGSS2016_gamma/src/main/java/es/uvigo/esei/dagss/dominio/entidades/Paciente.java
 /home/tatiux/Desktop/DAGSS/JEE/DAGSS2016_gamma/src/main/java/es/uvigo/esei/dagss/dominio/daos/MedicamentoDAO.java
 /home/tatiux/Desktop/DAGSS/JEE/DAGSS2016_gamma/src/main/java/es/uvigo/esei/dagss/controladores/medico/MedicoControlador.java

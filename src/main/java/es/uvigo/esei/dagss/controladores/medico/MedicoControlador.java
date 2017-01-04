@@ -3,6 +3,7 @@
  */
 package es.uvigo.esei.dagss.controladores.medico;
 
+import es.uvigo.esei.dagss.controladores.prescripcion.PrescripcionControlador;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
@@ -10,6 +11,7 @@ import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
 import es.uvigo.esei.dagss.dominio.entidades.Medicamento;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
+import es.uvigo.esei.dagss.dominio.entidades.Paciente;
 import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
@@ -37,6 +39,19 @@ public class MedicoControlador implements Serializable {
     private String dni;
     private String numeroColegiado;
     private String password;
+    private PrescripcionControlador prescripcionControlador;
+    private Cita citaActual;
+    private String estadoCita;
+    private Prescripcion prescripcionActual;
+
+    public String getEstadoCita() {
+        return estadoCita;
+    }
+
+    public void setEstadoCita(String estadoCita) {
+        this.estadoCita = estadoCita;
+    }
+    
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -49,9 +64,6 @@ public class MedicoControlador implements Serializable {
      @EJB
     private CitaDAO citaDAO;
      
-     PrescripcionControlador prescripcionControlador;
-    private Cita citaActual;
-    private Prescripcion prescripcionActual;
     /**
      * Creates a new instance of AdministradorControlador
      */
@@ -104,7 +116,7 @@ public class MedicoControlador implements Serializable {
         }
         return medico;
     }
-     public Cita getCitaActual(){return citaActual;}
+     public Cita getCitaActual(){return this.citaActual;}
          
      public void setCitaActual(Cita citaActual){this.citaActual=citaActual;}
 
@@ -116,7 +128,8 @@ public class MedicoControlador implements Serializable {
         SimpleDateFormat sdf =new SimpleDateFormat(DATE_FORMAT);
         
         return  citaDAO.buscarCitasMedico(medicoActual.getId(),today);
-}
+      }
+     
     public void doAddPrescripcion(Medicamento medicamento){
         prescripcionControlador.doPrescripcionNueva(medicamento, null, null, null, 0, null);
     }
@@ -157,7 +170,6 @@ public class MedicoControlador implements Serializable {
         }
         return destino;
     }
-
     //Acciones
     public String doShowCita() {
         return "detallesCita";

@@ -16,13 +16,10 @@ import javax.persistence.TypedQuery;
 public class RecetaDAO extends GenericoDAO<Receta>{
  
     public List<Receta> buscarPorTarjeta(String numTarjeta){
-      long systemDate = System.currentTimeMillis();
-      
       TypedQuery <Receta> q = em.createQuery("SELECT receta FROM Receta AS receta "
-                + "  WHERE (receta.prescripcion.tratamiento.paciente.numeroTarjetaSanitaria = :numeroTarjetaSanitaria) AND receta.iniciovalidez = :systemDate", Receta.class);
+                + "  WHERE (receta.prescripcion.paciente.numeroTarjetaSanitaria = :numTarjetaSanitaria)", Receta.class);
     
         q.setParameter("numTarjetaSanitaria",numTarjeta);
-        q.setParameter("systemDate",systemDate);
                 
         return q.getResultList();
     }

@@ -18,7 +18,44 @@
             </ui:define>
             
             <ui:define name="contenido">
-                <h1>Contenido aqui.</h1>
+                <b:row class="text-center encabezado2Menu">
+                    <b:column col-xs="12" col-md="4">
+                            <span class="icon-Pharmacy"></span>
+                            <h1><h:outputText  value="#{farmaciaControlador.farmaciaActual.nombreFarmacia}" /></h1>
+                    </b:column>
+                    <b:column col-xs="12" col-md="8">
+                        <h:form>
+                            <b:panelGrid colSpans="12" size="xs" class="text-center">
+                                <b:inputText id="tarjetaUsuario" value="#{farmaciaControlador.tarjetaUsuario}" span="8" offset-md="2">
+                                    <f:facet name="prepend">
+                                        <h:outputText value="N.Tarjeta" />
+                                    </f:facet> 
+                                    <f:facet name="append">
+                                        <i class="fa fa-heartbeat" aria-hidden="true"></i>
+                                    </f:facet>
+                                 </b:inputText>    
+                                <b:commandButton span="6" offset-md="3" look="success" value="View" ajax="true" update="listaRecetas" actionListener="#{farmaciaControlador.buscarPorTarjeta()}" onclick="location.reload()"/>
+                            </b:panelGrid>
+                        </h:form>
+                    </b:column>
+                </b:row>
+                <b:row class="text-center" id="listaRecetas">
+                    <b:column col-xs="12">
+                        <b:messages style="font-size: 15px;"/>
+                        <h:form>
+                            <b:dataTable value="#{farmaciaControlador.listaRecetasUsuario}" var="receta">
+                                <b:dataTableColumn value="#{receta.id}" />
+                                <b:dataTableColumn value="#{receta.estadoReceta}" />
+                                <b:dataTableColumn value="#{receta.cantidad}" />
+                                <b:dataTableColumn value="#{receta.finValidez}" />
+                                <b:dataTableColumn value="#{receta.inicioValidez}" />
+                                <b:dataTableColumn label="Dispensar">
+                                    <b:commandButton rendered="#{receta.estadoReceta eq 'GENERADA'}" value="dispensar" ajax="true" update="listaRecetas" actionListener="#{farmaciaControlador.suministrarReceta(receta)}" />
+                                </b:dataTableColumn>
+                            </b:dataTable>
+                        </h:form>
+                    </b:column>
+                </b:row>
             </ui:define>
 
         </ui:composition>

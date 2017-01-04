@@ -3,34 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.uvigo.esei.dagss.controladores.medico;
+package es.uvigo.esei.dagss.controladores.prescripcion;
 
 import java.io.Serializable;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
-import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
-import es.uvigo.esei.dagss.dominio.daos.MedicamentoDAO;
 import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
-import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.Medicamento;
-import es.uvigo.esei.dagss.dominio.entidades.Medico;
+import es.uvigo.esei.dagss.dominio.entidades.Paciente;
 import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 
-/**
- *
- * @author Sanchez
- */
-@Named(value="TratamientoControlador")
-@Singleton
+
+@Named(value="prescripcionControlador")
+@SessionScoped
 public class PrescripcionControlador implements Serializable{
-
     @EJB
     PrescripcionDAO prescripcionDAO; 
     
@@ -60,10 +55,6 @@ public class PrescripcionControlador implements Serializable{
         
         int numRecetas=(time.getDays()*dosis) / medicamento.getNumeroDosis();
         System.out.println("Las recetas totales son" + numRecetas);
-        
-        
-        
-      
     }
 
    public Prescripcion getUltimaPrescripcion(long id) {
@@ -71,5 +62,11 @@ public class PrescripcionControlador implements Serializable{
        
     }
 
-
+   public List<Prescripcion> getPrescripcionesPaciente(Paciente paciente){
+       return prescripcionDAO.getPrescripcionesPaciente(paciente.getId());
+   }
+   
+   public void eliminarPrescripcion(Prescripcion prescripcion){
+       prescripcionDAO.eliminar(prescripcion);
+   }
 }
