@@ -97,7 +97,11 @@ h1,h2,h3{
     height: 50px;
     text-align: center;
 }
-
+.encabezado2Menu{
+    padding-top: 10px;
+    background-color: #EFEFEF;
+    min-height:50px;
+}
 #cuerpo{
 }
 

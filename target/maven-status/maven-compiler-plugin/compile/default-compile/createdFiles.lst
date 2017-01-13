@@ -1,5 +1,6 @@
 es/uvigo/esei/dagss/dominio/daos/PacienteDAO.class
 es/uvigo/esei/dagss/controladores/administrador/GestionPacientesControlador.class
+es/uvigo/esei/dagss/controladores/medico/PrescripcionControlador.class
 es/uvigo/esei/dagss/dominio/daos/MedicamentoDAO.class
 es/uvigo/esei/dagss/controladores/paciente/PacienteControlador.class
 es/uvigo/esei/dagss/dominio/entidades/EstadoReceta.class
